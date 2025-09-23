@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}", // Scans all your components
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {}, // Add custom colors, fonts, spacing here if needed
+    extend: {
+      colors: {
+        primary: "#5f6FFF", // your tutor’s custom color
+      },
+    },
   },
   plugins: [],
-}
+};
