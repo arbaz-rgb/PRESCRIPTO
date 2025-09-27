@@ -8,10 +8,14 @@ const Navbar = () => {
   const [token, setToken] = useState(true);
   return (
     <div className="flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400">
-     
-      <img className="w-44 cursor-pointer" src={assets.logo} alt="logo" />
+      <img
+        onClick={() => navigate("/")}
+        className="w-44 cursor-pointer"
+        src={assets.logo}
+        alt="logo"
+      />
 
-    {/* links */}
+      {/* links */}
       <ul className="hidden md:flex items-start gap-5 font-medium">
         <li>
           <NavLink
@@ -65,7 +69,7 @@ const Navbar = () => {
       </ul>
 
       {/* Button */}
-      
+
       <div className="flex item-center gap-4">
         {token ? (
           <div className="flex items-center gap-2 cursor-pointer group relative">
