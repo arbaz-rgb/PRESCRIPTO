@@ -33,9 +33,9 @@ const AppContextProvider = (props) => {
     // Split the date (expected format: YYYY-MM-DD)
     const dateArray = slotDate.split("_");
 
-    const year = dateArray[0];
+    const day = dateArray[0];
     const month = months[parseInt(dateArray[1], 10) - 1];
-    const day = dateArray[2];
+    const year = dateArray[2];
     return `${day} ${month} ${year}`;
   };
 
