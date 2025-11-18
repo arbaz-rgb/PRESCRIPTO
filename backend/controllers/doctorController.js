@@ -61,7 +61,7 @@ const appointmentsDoctor = async (req, res) => {
 
 ///APi to mark appointment completed for the doctor panel
 
-const appointmentComplete = async (req,res) => {
+const appointmentComplete = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
@@ -83,7 +83,7 @@ const appointmentComplete = async (req,res) => {
 
 //APi to cancel appointment for the doctor panel
 
-const appointmentCancel = async (req,res) => {
+const appointmentCancel = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
@@ -103,9 +103,73 @@ const appointmentCancel = async (req,res) => {
   }
 };
 
+// Api to get dashboard data for the doctor panel
+const doctorDashboard = async (req, res) => {
+  try {
+    const { docId } = req.body;
+    const appointments = await appointmentModel.find({ docId });
 
-//Api to get dashboard data fot the doctor panel
+    let earnings = 0;
+    let patients = [];
 
+    // calculate earnings and unique patients
+    appointments.forEach((item) => {
+      if (item.isCompleted || item.payment) {
+        earnings += item.amount;
+      }
 
+      if (!patients.includes(item.userId.toString())) {
+        patients.push(item.userId.toString());
+      }
+    });
 
-export { changeAvailability, doctorList, loginDoctor, appointmentsDoctor ,appointmentCancel,appointmentComplete};
+    // prepare dashboard data
+    const dashData = {
+      earnings,
+      appointments: appointments.length,
+      patients: patients.length,
+      latestAppointments: appointments.reverse().slice(0, 5),
+    };
+
+    res.json({ success: true, dashData });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+//Api for the doctor profile
+
+const doctorProfile = async (req, res) => {
+  try {
+    const { docId } = req.body;
+    const profileData = await doctorModel.findById(docId).select("-password");
+    res.json({ success: true, profileData });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+//Api for the update the doctor profile
+
+const updateDoctorProfile = async (req, res) => {
+  try {
+    const { docId, fees, address, available } = req.body;
+    await doctorModel.findByIdAndUpdate(docId, { fees, address, available });
+
+    res.json({ success: true, message: "Profile Upadate" });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export {
+  changeAvailability,
+  doctorList,
+  loginDoctor,
+  appointmentsDoctor,
+  appointmentCancel,
+  appointmentComplete,
+  doctorDashboard,
+  doctorProfile,
+  updateDoctorProfile,
+};
