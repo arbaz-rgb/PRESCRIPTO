@@ -1,3 +1,21 @@
+# Environment files (do NOT commit secrets)
+.env
+.env.local
+.env.*.local
+.env.production
+.env.*.production
+
+# Logs & temp
+*.log
+
+# Mac / Windows
+Thumbs.db
+ehthumbs.db
+
+# Misc build / cache
+.cache
+.vite
+
 # Logs
 logs
 *.log
